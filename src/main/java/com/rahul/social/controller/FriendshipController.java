@@ -2,6 +2,7 @@ package com.rahul.social.controller;
 
 import com.rahul.social.dto.FriendshipDto;
 import com.rahul.social.dto.UsersDto;
+import com.rahul.social.entities.FriendshipKey;
 import com.rahul.social.services.FriendshipService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,8 +22,14 @@ public class FriendshipController {
     private final FriendshipService friendshipService;
 
     @PostMapping("/add-friend")
-    public ResponseEntity<FriendshipDto> sendFriendRequest(@RequestBody FriendshipDto friendshipDto){
+    public ResponseEntity<FriendshipDto> sendFriendRequest(@RequestParam("senderId") String  senderId,
+                                                           @RequestParam("receiverId") String receiverId){
         logger.info("inside sendFriendRequest() method in FriendshipController class");
+        FriendshipKey friendshipKey = FriendshipKey.builder()
+                .senderId(Long.parseLong(senderId))
+                .receiverId(Long.parseLong(receiverId))
+                .build();
+        FriendshipDto friendshipDto = FriendshipDto.builder().friendshipId(friendshipKey).build();
         return new ResponseEntity<FriendshipDto>(friendshipService.sendFriendRequest(friendshipDto), HttpStatus.OK);
     }
 
@@ -33,8 +41,16 @@ public class FriendshipController {
 
 
     @PutMapping("/acceptFriendRequest")
-    public ResponseEntity<FriendshipDto> acceptFriendRequest(){
+    public ResponseEntity<String > acceptFriendRequest(@RequestParam("senderId") String  senderId,
+                                                       @RequestParam("receiverId") String receiverId){
         logger.info("inside acceptFriendRequest() method in FriendshipController class ");
-        return new ResponseEntity<FriendshipDto>(friendshipService.acceptFriendRequest(), HttpStatus.OK);
+        FriendshipKey friendshipKey = FriendshipKey.builder()
+                .senderId(Long.parseLong(senderId))
+                .receiverId(Long.parseLong(receiverId))
+                .build();
+        FriendshipDto friendshipDto = FriendshipDto.builder().friendshipId(friendshipKey).build();
+        FriendshipDto friendsDto = friendshipService.acceptFriendRequest(friendshipDto);
+        logger.info("friendsDto :: {}",friendsDto);
+        return ResponseEntity.ok("OK");
     }
 }

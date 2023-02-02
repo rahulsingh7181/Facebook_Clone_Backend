@@ -4,22 +4,22 @@ import com.rahul.social.enums.UserStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 @Entity
-@IdClass(FriendshipKey.class)
 @Table(name = "friends")
 public class Friendship {
 
-    @Id
-    private Long senderId;
-    @Id
-    private Long receiverId;
+    @EmbeddedId
+    @NotNull
+    private FriendshipKey friendshipId;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")

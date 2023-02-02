@@ -10,7 +10,7 @@ public interface FriendshipService {
     // send friend request
     FriendshipDto sendFriendRequest(FriendshipDto friendshipDto);
     // accept friend request
-    FriendshipDto acceptFriendRequest();
+    FriendshipDto acceptFriendRequest(FriendshipDto friendshipDto);
 
     // get all friend requests
     List<UsersDto> getAllFriendRequest(Long receiverId);

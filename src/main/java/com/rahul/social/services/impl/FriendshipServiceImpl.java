@@ -30,25 +30,26 @@ public class FriendshipServiceImpl implements FriendshipService {
     @Override
     public FriendshipDto sendFriendRequest(FriendshipDto friendshipDto) {
         logger.info("inside sendFriendRequest() method in FriendshipServiceImpl class");
-        logger.info("friendsDto {}",friendshipDto);
+        logger.info("friendsDto :: {}",friendshipDto);
         FriendshipDto friendshipDto1
                 = FriendshipDto.builder()
-                .senderId(friendshipDto.getSenderId())
-                .receiverId(friendshipDto.getReceiverId())
+                .friendshipId(friendshipDto.getFriendshipId())
                 .status(UserStatus.PENDING)
                 .requestDate(new Date())
                 .acceptDate(null)
                 .build();
         Friendship friendship = friendshipRepository.save(modelMapper.map(friendshipDto1, Friendship.class));
-        logger.info("ReceiverId id  = {} and SenderId id = {}",friendship.getReceiverId(), friendship.getSenderId());
+        logger.info("FriendshipKey id  = {} ",friendship.getFriendshipId());
         return modelMapper.map(friendship, FriendshipDto.class);
     }
 
     @Override
-    public FriendshipDto acceptFriendRequest() {
+    public FriendshipDto acceptFriendRequest(FriendshipDto friendshipDto) {
         logger.info("inside acceptFriendRequest() method in FriendshipServiceImpl class");
-        FriendshipDto friendshipDto = new FriendshipDto();
-
+        Friendship friendship = friendshipRepository
+                .findByFriendshipId(friendshipDto.getFriendshipId().getSenderId(),
+                        friendshipDto.getFriendshipId().getReceiverId());
+        logger.info("friendship :: {}",friendship);
         return null;
     }
 

@@ -1,7 +1,6 @@
 package com.rahul.social.services.impl;
 
 import com.rahul.social.constants.AppConstants;
-import com.rahul.social.dto.PostDto;
 import com.rahul.social.dto.UserResponse;
 import com.rahul.social.dto.UsersDto;
 import com.rahul.social.entities.Users;
