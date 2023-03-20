@@ -17,7 +17,7 @@ public interface FriendshipService {
     // get friends by userAccept Id
     List<FriendshipDto> getAllFriend(Long userId);
     // get all friends
-    List<FriendshipDto> getAllFriends();
+    List<UsersDto> getAllFriends(Long receiverId);
     // block friend
     String blockFriend(FriendshipDto friendshipDto);
 }

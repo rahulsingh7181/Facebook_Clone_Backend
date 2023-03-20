@@ -42,11 +42,8 @@ public class AuthController {
         if(userDetails != null){
             jwtAuthResponse.setToken(jwtTokenHelper.generateToken(userDetails).get("token").toString());
             jwtAuthResponse.setExpiresIn((Long) jwtTokenHelper.generateToken(userDetails).get("expiresIn"));
-            logger.info("expiration time {}", (Long) jwtTokenHelper.generateToken(userDetails).get("expiresIn"));
             jwtAuthResponse.setStatus("SUCCESS");
             jwtAuthResponse.setStatusCode(HttpStatus.OK.value());
-            logger.info("token generated ----->>> "+ jwtAuthResponse.getToken());
-
         }
         return new ResponseEntity<JwtAuthResponse>(jwtAuthResponse, HttpStatus.OK);
     }

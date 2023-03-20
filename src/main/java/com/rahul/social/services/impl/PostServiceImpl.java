@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +28,22 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(PostDto postDto) throws IOException {
         logger.info("Inside PostService class createPost() method");
         Post post = Post.builder()
-                .caption(postDto.getCaption())
-                .postImage(fileUtility.compressBytes(postDto.getPostImage()))
+                .caption(postDto.getCaption().replace("\"", ""))
+                .postImage(postDto.getPostImage())
                 .postDate(new Date())
                 .isPostActive(true)
                 .users(postDto.getUsers())
                 .build();
         postRepository.save(post);
         return postDto;
+    }
+
+    @Override
+    public List<PostDto> getAllPosts(Long userId) {
+        logger.info("inside getAllPosts() method in PostServiceImpl class userId : {} ", userId);
+        List<Post> posts = postRepository.findByUserId(userId);
+        logger.info("posts : {}",posts.size());
+        return posts.stream().map((post)-> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
     }
 
 }

@@ -24,5 +24,5 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             "JOIN friends ON users.user_id = friends.sender_id " +
             "WHERE friends.receiver_id = ?1 " +
             "AND friends.status = ?2", nativeQuery = true)
-    List<Users> findByUserId(@Param("receiverId") Long receiverId, @Param("status") UserStatus status);
+    List<Users> findByUserId(@Param("receiverId") Long receiverId, @Param("status") Integer status);
 }

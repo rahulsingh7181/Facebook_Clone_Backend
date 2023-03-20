@@ -50,13 +50,15 @@ public class FriendshipServiceImpl implements FriendshipService {
                 .findByFriendshipId(friendshipDto.getFriendshipId().getSenderId(),
                         friendshipDto.getFriendshipId().getReceiverId());
         logger.info("friendship :: {}",friendship);
-        return null;
+        friendship.setStatus(UserStatus.ACCEPTED);
+        friendship.setAcceptDate(new Date());
+        return this.modelMapper.map(friendshipRepository.save(friendship), FriendshipDto.class);
     }
 
     @Override
     public List<UsersDto> getAllFriendRequest(Long receiverId) {
-        logger.info("inside getAllFriendRequest() method in FriendshipServiceImpl class receiverId : {}", receiverId);
-        List<Users> users = usersRepository.findByUserId(receiverId, UserStatus.PENDING);
+        logger.info("inside getAllFriendRequest() method in FriendshipServiceImpl class receiverId : {} and userStatus : {}", receiverId,UserStatus.PENDING);
+        List<Users> users = usersRepository.findByUserId(receiverId, 0);
         logger.info("users : {}",users.size());
         return users.stream().map((user)-> modelMapper.map(user, UsersDto.class)).collect(Collectors.toList());
     }
@@ -68,9 +70,11 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<FriendshipDto> getAllFriends() {
-        logger.info("inside getAllFriends() method in FriendshipServiceImpl class");
-        return null;
+    public List<UsersDto> getAllFriends(Long receiverId) {
+        logger.info("inside getAllFriends() method in FriendshipServiceImpl class receiverId : {} and userStatus : {}", receiverId,UserStatus.ACCEPTED);
+        List<Users> users = usersRepository.findByUserId(receiverId, 1);
+        logger.info("users : {}",users.size());
+        return users.stream().map((user)-> modelMapper.map(user, UsersDto.class)).collect(Collectors.toList());
     }
 
     @Override

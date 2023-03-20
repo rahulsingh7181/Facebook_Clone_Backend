@@ -53,4 +53,10 @@ public class FriendshipController {
         logger.info("friendsDto :: {}",friendsDto);
         return ResponseEntity.ok("OK");
     }
+
+    @GetMapping("/getAllFriends/{receiverId}")
+    public ResponseEntity<List<UsersDto>> getAllFriends(@PathVariable("receiverId") Long receiverId){
+        logger.info("inside getAllFriends() method in FriendshipController class receiverId : {}", receiverId);
+        return new ResponseEntity<List<UsersDto>>(friendshipService.getAllFriends(receiverId), HttpStatus.OK);
+    }
 }

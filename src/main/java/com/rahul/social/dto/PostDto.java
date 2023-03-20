@@ -16,7 +16,7 @@ public class PostDto {
 
     private String caption;
 
-    private byte[] postImage;
+    private String postImage;
 
     private Date postDate;
 

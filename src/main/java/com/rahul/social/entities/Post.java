@@ -10,6 +10,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 @Entity
 @Table(name = "post")
@@ -20,11 +21,11 @@ public class Post {
     @Column(name = "post_id")
     private Long postId;
 
-    @Column(name = "post_caption")
+    @Column(name = "post_caption", nullable = false)
     private String caption;
 
-    @Column(name = "post_image")
-    private byte[] postImage;
+    @Column(name = "post_image", nullable = false)
+    private String postImage;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "post_date")
